@@ -1,0 +1,9 @@
+minikube start; FailGate;
+minikube addons enable ingress; FailGate;
+minikube addons enable ingress-dns; FailGate;
+minikube addons enable storage-provisioner-gluster; FailGate;
+
+flux bootstrap github --token-auth --owner=food2gether --repository=flux-base --branch=$(git rev-parse --abbrev-ref HEAD) --path=system; FailGate;
+echo "";
+echo "Everything set up!";
+echo "";
