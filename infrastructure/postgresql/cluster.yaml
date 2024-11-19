@@ -1,0 +1,12 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgresql
+  namespace: postgresql
+spec:
+  # Configure stoage for production
+  # TODO: Configure observability at some time
+  # We might wont to add a hidden credential secret at some time
+  instances: 1
+  storage:
+    size: 5Gi
