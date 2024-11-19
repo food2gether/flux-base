@@ -5,17 +5,3 @@ resources:
   - sources
   - components
 
-patches:
-  # This will add the wait field to the Kustomization object
-  # so that the Flux reconciler waits for all resources to be ready
-  # # before marking the sync as successful.
-  - patch: |
-      - op: add
-        path: /spec/wait
-        value: true
-    target:
-      group: kustomize.toolkit.fluxcd.io
-      version: v1
-      kind: Kustomization
-      name: flux-system
-      namespace: flux-system
