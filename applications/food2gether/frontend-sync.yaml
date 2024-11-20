@@ -1,0 +1,30 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: frontend
+  namespace: food2gether
+spec:
+  interval: 1m0s
+  ref:
+    branch: main
+  secretRef:
+    name: flux-system
+    namespace: flux-system
+  url: https://github.com/food2gether/frontend.git
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: frontend
+  namespace: food2gether
+spec:
+  interval: 1m0s
+  path: ./deployment/prod
+  prune: false
+  sourceRef:
+    kind: GitRepository
+    name: food2gether
+    namespace: frontend
+  timeout: 2m0s
+  wait: true
