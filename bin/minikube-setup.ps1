@@ -11,7 +11,7 @@ function FailGate {
 }
 
 # Install Minikube & bootstrap flux
-Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Get-Content .\bin\minikube-setup)))
+Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Invoke-WebRequest https://raw.githubusercontent.com/food2gether/flux-base/refs/heads/main/bin/minikube-setup).Content))
 
 # Remove existing DNS rules
 Get-DnsClientNrptRule | Where-Object { $_.Namespace -eq "food2gether.local" } | Remove-DnsClientNrptRule -Force
@@ -19,6 +19,7 @@ Get-DnsClientNrptRule | Where-Object { $_.Namespace -eq "food2gether.local" } | 
 Add-DnsClientNrptRule -Namespace "food2gether.local" -NameServer "$(minikube ip)"
 
 if ($ApplicationComponent -ne $null) {
+  echo "Patching cluster to use local deployment..."
   flux suspend $ApplicationComponent -n food2gether
   kubectl delete -k .\deployment\prod
   kubectl apply -k .\deployment\local

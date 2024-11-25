@@ -9,7 +9,7 @@ FailGate() {
 }
 
 # Install minikube & bootstrap flux
-source bin/minikube-setup
+curl --fail https://raw.githubusercontent.com/food2gether/flux-base/refs/heads/main/bin/minikube-setup | eval
 
 # Configure minikube dns
 case "$(uname -s)" in
@@ -29,6 +29,7 @@ EOF
 esac
 
 if [ -n "$APPLICATION_COMPONENT" ]; then
+  echo "Patching cluster to use local deployment..."
   flux suspend kustomization "$APPLICATION_COMPONENT" -n food2gether
   kubectl delete -k "deployment/prod"
   kubectl apply -k "deployment/local"
