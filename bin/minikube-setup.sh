@@ -9,7 +9,8 @@ FailGate() {
 }
 
 # Install minikube & bootstrap flux
-curl --fail https://raw.githubusercontent.com/food2gether/flux-base/refs/heads/main/bin/minikube-setup | eval
+minikube_setup_script=$(curl --fail https://raw.githubusercontent.com/food2gether/flux-base/refs/heads/main/bin/minikube-setup)
+eval "$minikube_setup_script"
 
 # Configure minikube dns
 case "$(uname -s)" in
