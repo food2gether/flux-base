@@ -15,7 +15,7 @@ minikube_setup_script=$(curl --silent --fail https://raw.githubusercontent.com/f
 eval "$minikube_setup_script"
 
 echo "Waiting for application to be ready..."
-if ! kubectl -n food2gether wait kustomization/application --for condition=ready --timeout 5m; then
+if ! kubectl -n flux-system wait kustomization/application --for condition=ready --timeout 5m; then
   echo "Something has gone wrong. Deleting cluster..."
   minikube delete
   exit 1
