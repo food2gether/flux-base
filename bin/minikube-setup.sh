@@ -8,6 +8,11 @@ FailGate() {
   fi
 }
 
+if [ "$EUID" -ne 0 ]; then
+  echo "You need to run this script with root privileges!"
+  exit 1
+fi
+
 # Install minikube & bootstrap flux
 
 # We are storing the curl result in a variable because otherwise the stdin would be closed and the eval would not work resulting in a "curl: (23) Failed writing body" error
@@ -41,7 +46,7 @@ fi
 echo "Setup complete. You can now access the application at http://food2gether.local/"
 echo "Press Q to exit and remove the minikube cluster and dns resolver"
 while true; do
-  read -n 1 -s -r; 
+  read -srn1
   if [[ $REPLY =~ ^[Qq]$ ]]; then
     break
   fi

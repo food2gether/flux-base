@@ -1,3 +1,5 @@
+#Requires -RunAsAdministrator
+
 # Set the error handling
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
