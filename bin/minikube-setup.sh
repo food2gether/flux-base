@@ -18,7 +18,7 @@ eval "$minikube_setup_script"
 case "$(uname -s)" in
     Darwin*)
       sudo mkdir -p /etc/resolver
-      sudo cat <<EOF | tee /etc/resolver/minikube-food2gether > /dev/null
+      cat <<EOF | sudo tee /etc/resolver/minikube-food2gether > /dev/null
 domain food2gether.local
 nameserver $(minikube ip)
 search_order 1
@@ -42,6 +42,7 @@ fi
 echo "Setup complete. You can now access the application at http://food2gether.local/"
 echo "Press Q to exit and remove the minikube cluster and dns resolver"
 while true; do
+  echo "debug"
   read -srn1 REPLY
   if [[ $REPLY =~ ^[Qq]$ ]]; then
     break
