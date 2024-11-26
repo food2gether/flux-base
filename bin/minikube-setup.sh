@@ -14,6 +14,14 @@ FailGate() {
 minikube_setup_script=$(curl --silent --fail https://raw.githubusercontent.com/food2gether/flux-base/refs/heads/main/bin/minikube-setup)
 eval "$minikube_setup_script"
 
+echo "Waiting for application to be ready..."
+if ! kubectl -n food2gether wait kustomization/application --for condition=ready --timeout 5m; then
+  echo "Something has gone wrong. Deleting cluster..."
+  minikube delete
+else
+  echo "Application is ready!"
+fi
+
 # Configure minikube dns
 echo "Setup DNS resolver..."
 case "$(uname -s)" in
