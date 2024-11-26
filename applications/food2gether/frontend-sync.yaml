@@ -23,7 +23,7 @@ spec:
   prune: false
   sourceRef:
     kind: GitRepository
-    name: food2gether
-    namespace: frontend
+    name: frontend
+    namespace: flux-system
   timeout: 2m0s
   wait: true
