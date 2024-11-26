@@ -5,8 +5,6 @@ metadata:
   name: operators
   namespace: flux-system
 spec:
-  dependsOn:
-  - name: flux-system
   interval: 1m0s
   path: ./operators
   prune: true
