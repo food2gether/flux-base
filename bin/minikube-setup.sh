@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This is not needed for unix shells but here for consistency sake
 FailGate() {
@@ -23,7 +23,7 @@ eval "$minikube_setup_script"
 case "$(uname -s)" in
     Darwin*)
         sudo mkdir -p /etc/resolver
-        sudo <<EOF > /etc/resolver/minikube-food2gether
+        sudo cat <<EOF > /etc/resolver/minikube-food2gether
 domain food2gether.local
 nameserver $(minikube ip)
 search_order 1
@@ -31,6 +31,7 @@ timeout 5
 EOF
         ;;
     *)
+      # Note: the read command needs a different flag on linux: -k1 -> -n1
         echo "Only MacOS is supported for now."
         exit 1
         ;;
@@ -46,7 +47,7 @@ fi
 echo "Setup complete. You can now access the application at http://food2gether.local/"
 echo "Press Q to exit and remove the minikube cluster and dns resolver"
 while true; do
-  read -srn1
+  read -srk1
   if [[ $REPLY =~ ^[Qq]$ ]]; then
     break
   fi
