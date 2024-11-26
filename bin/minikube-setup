@@ -1,5 +1,5 @@
 minikube delete; FailGate
-minikube start --addons storage-provisioner,intress,ingress-dns; FailGate;
+minikube start --addons storage-provisioner,intress,ingress-dns --force; FailGate;
 
 flux bootstrap github --token-auth --owner=food2gether --repository=flux-base --branch=$(git rev-parse --abbrev-ref HEAD) --path=system; FailGate;
 echo "";
