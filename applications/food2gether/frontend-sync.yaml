@@ -3,14 +3,13 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
   name: frontend
-  namespace: food2gether
+  namespace: flux-system
 spec:
   interval: 1m0s
   ref:
     branch: main
   secretRef:
     name: flux-system
-    namespace: flux-system
   url: https://github.com/food2gether/frontend.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
