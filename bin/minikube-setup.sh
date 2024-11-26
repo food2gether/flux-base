@@ -18,7 +18,7 @@ eval "$minikube_setup_script"
 case "$(uname -s)" in
     Darwin*)
       sudo mkdir -p /etc/resolver
-      sudo cat <<EOF > /etc/resolver/minikube-food2gether
+      sudo cat <<EOF | tee /etc/resolver/minikube-food2gether > /dev/null
 domain food2gether.local
 nameserver $(minikube ip)
 search_order 1
