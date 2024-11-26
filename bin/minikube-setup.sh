@@ -42,7 +42,7 @@ fi
 echo "Setup complete. You can now access the application at http://food2gether.local/"
 echo "Press Q to exit and remove the minikube cluster and dns resolver"
 while true; do
-  read -srn1
+  read -srn1 REPLY
   if [[ $REPLY =~ ^[Qq]$ ]]; then
     break
   fi
