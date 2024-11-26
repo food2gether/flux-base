@@ -15,6 +15,7 @@ minikube_setup_script=$(curl --silent --fail https://raw.githubusercontent.com/f
 eval "$minikube_setup_script"
 
 # Configure minikube dns
+echo "Setup DNS resolver..."
 case "$(uname -s)" in
     Darwin*)
       sudo mkdir -p /etc/resolver
@@ -52,6 +53,7 @@ done
 
 # Cleanup
 minikube delete
+echo "Removing DNS resolver"
 case "$(uname -s)" in
     Darwin*)
       sudo rm -rf /etc/resolver/minikube-food2gether
