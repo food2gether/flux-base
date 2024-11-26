@@ -11,7 +11,7 @@ FailGate() {
 # Install minikube & bootstrap flux
 
 # We are storing the curl result in a variable because otherwise the stdin would be closed and the eval would not work resulting in a "curl: (23) Failed writing body" error
-minikube_setup_script=$(curl --fail https://raw.githubusercontent.com/food2gether/flux-base/refs/heads/main/bin/minikube-setup)
+minikube_setup_script=$(curl --silent --fail https://raw.githubusercontent.com/food2gether/flux-base/refs/heads/main/bin/minikube-setup)
 eval "$minikube_setup_script"
 
 # Configure minikube dns
