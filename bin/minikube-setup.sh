@@ -9,6 +9,10 @@ FailGate() {
 }
 
 github_pat=$1
+if [ -z "$github_pat" ]; then
+  echo "Please provide a GitHub Personal Access Token as the first argument."
+  exit 1
+fi
 
 # Install minikube & bootstrap flux
 
@@ -31,7 +35,7 @@ EOF
     *)
       # Note: the read command needs a different flag on linux: -k1 -> -n1
       echo "Only MacOS is supported for now."
-      exit 1
+      echo "Skipping..."
       ;;
 esac
 
@@ -62,6 +66,6 @@ case "$(uname -s)" in
       ;;
     *)
       echo "Only MacOS is supported for now."
-      exit 1
+      echo "Skipping..."
       ;;
 esac

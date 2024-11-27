@@ -1,7 +1,9 @@
 #Requires -RunAsAdministrator
 param (
   [Parameter(Mandatory=$true)]
-  [string]$GitHubToken
+  [string]$GitHubToken,
+  [Parameter(Mandatory=$false)]
+  [string]$ApplicationComponent
 )
 
 # Set the error handling
