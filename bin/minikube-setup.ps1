@@ -1,4 +1,8 @@
 #Requires -RunAsAdministrator
+param (
+  [Parameter(Mandatory=$true)]
+  [string]$GitHubToken
+)
 
 # Set the error handling
 $ErrorActionPreference = "Stop"
@@ -13,7 +17,7 @@ function FailGate {
 }
 
 # Install Minikube & bootstrap flux
-Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Invoke-WebRequest https://raw.githubusercontent.com/food2gether/flux-base/refs/heads/main/bin/minikube-setup).Content))
+echo "$GitHubToken" | Invoke-Command -ScriptBlock ([ScriptBlock]::Create((Invoke-WebRequest https://raw.githubusercontent.com/food2gether/flux-base/refs/heads/main/bin/minikube-setup).Content))
 
 # Remove existing DNS rules
 echo "Setup DNS resolver..."
