@@ -5,6 +5,8 @@ param (
   [Parameter(Mandatory=$false)]
   [string]$ApplicationComponent
 )
+echo "Token: $GitHubToken"
+echo "Component: $ApplicationComponent"
 
 # Set the error handling
 $ErrorActionPreference = "Stop"
