@@ -3,6 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
   name: frontend
+  # In flux-system namespace because we are referncing the flux-system secret witch cannot be accessed from other namespaces
   namespace: flux-system
 spec:
   interval: 1m0s
