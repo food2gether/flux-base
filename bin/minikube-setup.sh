@@ -1,24 +1,30 @@
 #!/bin/bash
 
-# This is not needed for unix shells but here for consistency sake
-FailGate() {
-  if [ $? -ne 0 ]; then
-    echo "Failed to execute command. Exiting..."
-    exit 1
-  fi
-}
+# Fail on first error
+set -e
 
 github_pat=$1
+application_component=$2
+
 if [ -z "$github_pat" ]; then
   echo "Please provide a GitHub Personal Access Token as the first argument."
   exit 1
 fi
 
+if [ -z "$application_component" ]; then
+  echo "application_component is omitted. The cluster will be set up with production configuration."
+fi
+
 # Install minikube & bootstrap flux
 
-# We are storing the curl result in a variable because otherwise the stdin would be closed and the eval would not work resulting in a "curl: (23) Failed writing body" error
-minikube_setup_script=$(curl --silent --fail https://raw.githubusercontent.com/food2gether/flux-base/refs/heads/main/bin/minikube-setup)
-eval "$minikube_setup_script" <<< "$github_pat"
+# make sure to create a fresh minikube cluster
+minikube delete
+minikube start --addons storage-provisioner,intress,ingress-dns
+
+flux bootstrap github --token-auth --owner=food2gether --repository=flux-base --branch=$(git rev-parse --abbrev-ref HEAD) --path=system <<< "$github_pat"
+echo "";
+echo "Cluster is set up!";
+echo "";
 
 # Configure minikube dns
 echo "Setup DNS resolver..."
@@ -32,16 +38,19 @@ search_order 1
 timeout 5
 EOF
       ;;
+    MINGW64*)
+      powershell.exe -Command 'Get-DnsClientNrptRule | Where-Object { $_.Namespace -eq "food2gether.local" } | Remove-DnsClientNrptRule -Force'
+      powershell.exe -Command "Add-DnsClientNrptRule -Namespace food2gether.local -NameServers $(minikube ip)"
     *)
       # Note: the read command needs a different flag on linux: -k1 -> -n1
-      echo "Only MacOS is supported for now."
+      echo "Unsupported OS."
       echo "Skipping..."
       ;;
 esac
 
-if [ -n "$APPLICATION_COMPONENT" ]; then
+if [ -n "$application_component" ]; then
   echo "Patching cluster to use local deployment..."
-  flux suspend kustomization "$APPLICATION_COMPONENT" -n food2gether
+  flux suspend kustomization "$application_component" -n food2gether
   kubectl delete -k "deployment/prod"
   kubectl apply -k "deployment/local"
 fi
@@ -64,8 +73,11 @@ case "$(uname -s)" in
     Darwin*)
       sudo rm -rf /etc/resolver/minikube-food2gether
       ;;
+    MINGW64*)
+      powershell.exe -Command 'Remove-DnsClientNrptRule -Namespace "food2gether.local" -NameServer "'$(minikube ip)'"'
     *)
-      echo "Only MacOS is supported for now."
+      echo "Unsupported OS."
       echo "Skipping..."
       ;;
 esac
+
