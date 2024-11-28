@@ -3,7 +3,7 @@
 # Fail on first error
 set -e
 
-LOCAL_DOMAIN="food2gether.local"
+LOCAL_DOMAIN="food2gether.test"
 
 github_pat=$1
 application_component=$2
@@ -50,6 +50,8 @@ EOF
       echo "Skipping..."
       ;;
 esac
+minikube tunnel &
+TUNNEL_PID=$!
 
 if [ -n "$application_component" ]; then
   echo "Patching cluster to use local deployment..."
@@ -69,8 +71,8 @@ while true; do
   fi
 done
 
+kill $TUNNEL_PID
 # Cleanup
-minikube delete
 echo "Removing DNS resolver"
 case "$(uname -s)" in
     Darwin*)
@@ -84,4 +86,5 @@ case "$(uname -s)" in
       echo "Skipping..."
       ;;
 esac
+minikube delete
 
