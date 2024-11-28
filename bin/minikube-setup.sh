@@ -19,7 +19,7 @@ fi
 
 # make sure to create a fresh minikube cluster
 minikube delete
-minikube start --addons storage-provisioner,intress,ingress-dns
+minikube start --addons storage-provisioner,ingress,ingress-dns
 
 flux bootstrap github --token-auth --owner=food2gether --repository=flux-base --branch=$(git rev-parse --abbrev-ref HEAD) --path=system <<< "$github_pat"
 echo "";
@@ -41,6 +41,7 @@ EOF
     MINGW64*)
       powershell.exe -Command 'Get-DnsClientNrptRule | Where-Object { $_.Namespace -eq "food2gether.local" } | Remove-DnsClientNrptRule -Force'
       powershell.exe -Command "Add-DnsClientNrptRule -Namespace food2gether.local -NameServers $(minikube ip)"
+      ;;
     *)
       # Note: the read command needs a different flag on linux: -k1 -> -n1
       echo "Unsupported OS."
@@ -75,6 +76,7 @@ case "$(uname -s)" in
       ;;
     MINGW64*)
       powershell.exe -Command 'Remove-DnsClientNrptRule -Namespace "food2gether.local" -NameServer "'$(minikube ip)'"'
+      ;;
     *)
       echo "Unsupported OS."
       echo "Skipping..."
