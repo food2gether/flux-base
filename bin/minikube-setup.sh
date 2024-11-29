@@ -41,8 +41,7 @@ timeout 5
 EOF
       ;;
     MINGW64*)
-      powershell.exe -Command "Get-DnsClientNrptRule | Where-Object { $_.Namespace -eq '$LOCAL_DOMAIN' } | Remove-DnsClientNrptRule -Force"
-      powershell.exe -Command "Add-DnsClientNrptRule -Namespace '$LOCAL_DOMAIN' -NameServers '$(minikube ip)'"
+      powershell.exe -Command "Add-Content -Path 'C:\\Windows\\System32\\drivers\\etc\\hosts' -Value '$(minikube ip) $LOCAL_DOMAIN'"
       ;;
     *)
       # Note: the read command needs a different flag on linux: -k1 -> -n1
@@ -79,7 +78,7 @@ case "$(uname -s)" in
       sudo rm -rf /etc/resolver/minikube-food2gether
       ;;
     MINGW64*)
-      powershell.exe -Command "Remove-DnsClientNrptRule -Namespace '$LOCAL_DOMAIN' -NameServer '$(minikube ip)'"
+      powershell.exe -Command "((Get-Content -Path 'C:\\Windows\\System32\\drivers\\etc\\hosts') notmatch '$(minikube ip) $LOCAL_DOMAIN') | Set-Content -Path 'C:\\Windows\\System32\\drivers\\etc\\hosts'"
       ;;
     *)
       echo "Unsupported OS."
