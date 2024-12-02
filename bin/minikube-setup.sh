@@ -55,15 +55,14 @@ EOF
       echo "Skipping..."
       ;;
 esac
-(minikube tunnel >> /dev/null) &
-TUNNEL_PID=$!
 
+echo "Patching cluster to use local deployment..."
 if [ -n "$application_component" ]; then
-  echo "Patching cluster to use local deployment..."
   flux suspend kustomization "$application_component" -n food2gether
   kubectl delete -k "deployment/prod"
   kubectl apply -k "deployment/local"
 fi
+kubectl patch ingress food2gether -n food2gether --type=json -p='[{"op": "replace", "path": "/spec/rules/0/host", "value": "'"$LOCAL_DOMAIN"'"}]'
 
 clear
 echo ""
@@ -76,7 +75,6 @@ while true; do
   fi
 done
 
-kill $TUNNEL_PID
 # Cleanup
 echo "Removing DNS resolver"
 case "$(uname -s)" in
