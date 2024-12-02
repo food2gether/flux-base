@@ -39,17 +39,23 @@ nameserver $(minikube ip)
 search_order 1
 timeout 5
 EOF
+      cat <<EOF | sudo tee /etc/resolver/minikube-cluster-local> /dev/null
+domain cluster.local
+nameserver $(minikube ip)
+search_order 1
+timeout 5
+EOF
       ;;
     MINGW64*)
-      powershell.exe -Command "Add-Content -Path 'C:\\Windows\\System32\\drivers\\etc\\hosts' -Value '$(minikube ip) $LOCAL_DOMAIN'"
+      powershell.exe -Command "Add-DnsClientNrptRule -Namespace '.$LOCAL_DOMAIN' -NameServers '$(minikube ip)'" # Required for application access
+      powershell.exe -Command "Add-DnsClientNrptRule -Namespace '.cluster.local' -NameServers '$(minikube ip)'" # Required for kubernetes service resolution
       ;;
     *)
-      # Note: the read command needs a different flag on linux: -k1 -> -n1
       echo "Unsupported OS."
       echo "Skipping..."
       ;;
 esac
-minikube tunnel &
+(minikube tunnel >> /dev/null) &
 TUNNEL_PID=$!
 
 if [ -n "$application_component" ]; then
@@ -78,7 +84,7 @@ case "$(uname -s)" in
       sudo rm -rf /etc/resolver/minikube-food2gether
       ;;
     MINGW64*)
-      powershell.exe -Command "((Get-Content -Path 'C:\\Windows\\System32\\drivers\\etc\\hosts') notmatch '$(minikube ip) $LOCAL_DOMAIN') | Set-Content -Path 'C:\\Windows\\System32\\drivers\\etc\\hosts'"
+      powershell.exe -Command "Get-DnsClientNrptRule | Where-Object { \$_.Namespace -eq '.$LOCAL_DOMAIN' -or \$_.Namespace -eq '.cluster.local' } | Remove-DnsClientNrptRule -Force"
       ;;
     *)
       echo "Unsupported OS."
