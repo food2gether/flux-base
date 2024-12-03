@@ -17,11 +17,31 @@ if [ -z "$application_component" ]; then
   echo "application_component is omitted. The cluster will be set up with production configuration."
 fi
 
+# Cleanup
+cleanup() {
+  echo "Removing DNS resolver"
+  case "$(uname -s)" in
+      Darwin*)
+        sudo rm -rf /etc/resolver/minikube-food2gether
+        ;;
+      MINGW64*)
+        powershell.exe -Command "Get-DnsClientNrptRule | Where-Object { \$_.Namespace -eq '.$LOCAL_DOMAIN' } | Remove-DnsClientNrptRule -Force"
+        ;;
+      *)
+        echo "Unsupported OS."
+        echo "Skipping..."
+        ;;
+  esac
+  minikube delete
+}
+
 # Install minikube & bootstrap flux
 
 # make sure to create a fresh minikube cluster
 minikube delete
 minikube start --addons storage-provisioner,ingress,ingress-dns
+
+trap cleanup EXIT
 
 flux bootstrap github --token-auth --owner=food2gether --repository=flux-base --branch=main --path=system <<< "$github_pat"
 echo "";
@@ -39,16 +59,9 @@ nameserver $(minikube ip)
 search_order 1
 timeout 5
 EOF
-      cat <<EOF | sudo tee /etc/resolver/minikube-cluster-local> /dev/null
-domain cluster.local
-nameserver $(minikube ip)
-search_order 1
-timeout 5
-EOF
       ;;
     MINGW64*)
       powershell.exe -Command "Add-DnsClientNrptRule -Namespace '.$LOCAL_DOMAIN' -NameServers '$(minikube ip)'" # Required for application access
-      powershell.exe -Command "Add-DnsClientNrptRule -Namespace '.cluster.local' -NameServers '$(minikube ip)'" # Required for kubernetes service resolution
       ;;
     *)
       echo "Unsupported OS."
@@ -56,13 +69,17 @@ EOF
       ;;
 esac
 
-echo "Patching cluster to use local deployment..."
+echo "Patching cluster for local development..."
 if [ -n "$application_component" ]; then
   flux suspend kustomization "$application_component" -n food2gether
   kubectl delete -k "deployment/prod"
   kubectl apply -k "deployment/local"
 fi
-kubectl patch ingress food2gether -n food2gether --type=json -p='[{"op": "replace", "path": "/spec/rules/0/host", "value": "'"$LOCAL_DOMAIN"'"}]'
+# Patch the local domain into it to expose domain via ingress-dns addon
+kubectl patch ingress food2gether -n food2gether --type=json --patch='[{"op": "replace", "path": "/spec/rules/0/host", "value": "'"$LOCAL_DOMAIN"'"}]'
+# Expose databasae for local development
+# The database it gonna be available at $(minikube ip):5453
+kubectl patch service postgresql-rw -n postgresql --type=json --patch='[{"op": "replace", "path": "/spec/externalIPs", "value": ["'"$(minikube ip)"'"]}]'
 
 clear
 echo ""
@@ -75,19 +92,4 @@ while true; do
   fi
 done
 
-# Cleanup
-echo "Removing DNS resolver"
-case "$(uname -s)" in
-    Darwin*)
-      sudo rm -rf /etc/resolver/minikube-food2gether
-      ;;
-    MINGW64*)
-      powershell.exe -Command "Get-DnsClientNrptRule | Where-Object { \$_.Namespace -eq '.$LOCAL_DOMAIN' -or \$_.Namespace -eq '.cluster.local' } | Remove-DnsClientNrptRule -Force"
-      ;;
-    *)
-      echo "Unsupported OS."
-      echo "Skipping..."
-      ;;
-esac
-minikube delete
-
+cleanup;
