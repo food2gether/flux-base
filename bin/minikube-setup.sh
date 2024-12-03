@@ -91,5 +91,3 @@ while true; do
     break
   fi
 done
-
-cleanup;
