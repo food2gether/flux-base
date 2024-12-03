@@ -10,6 +10,7 @@ spec:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: 'true'
       reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: 'food2gether'
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
       reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: 'food2gether'
   # Configure stoage for production
   # TODO: Configure observability at some time
