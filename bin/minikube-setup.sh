@@ -72,8 +72,8 @@ esac
 echo "Patching cluster for local development..."
 if [ -n "$application_component" ]; then
   flux suspend kustomization "$application_component" -n food2gether
-  kubectl delete -k "deployment/prod"
-  kubectl apply -k "deployment/local"
+  kubectl delete -k "k8s/deploy"
+  kubectl apply -k "k8s/local"
 fi
 # Patch the local domain into it to expose domain via ingress-dns addon
 kubectl patch ingress food2gether -n food2gether --type=json --patch='[{"op": "replace", "path": "/spec/rules/0/host", "value": "'"$LOCAL_DOMAIN"'"}]'
