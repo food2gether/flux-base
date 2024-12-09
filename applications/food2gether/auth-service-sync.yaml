@@ -20,7 +20,7 @@ metadata:
   namespace: food2gether
 spec:
   interval: 1m0s
-  path: ./deployment/prod
+  path: ./k8s/deploy
   prune: false
   sourceRef:
     kind: GitRepository
