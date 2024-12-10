@@ -84,6 +84,7 @@ kubectl patch service postgresql-rw -n postgresql --type=json --patch='[{"op": "
 clear
 echo ""
 echo "Setup complete. You can now access the application at http://$LOCAL_DOMAIN/"
+echo "The database is available at $(minikube ip):5453"
 echo "Press Q to exit and remove the minikube cluster and dns resolver"
 while true; do
   read -srn1 REPLY < /dev/tty

@@ -3,7 +3,7 @@ kind: Kustomization
 resources: 
   - global
   - frontend-sync.yaml
-# - auth-service-sync.yaml
-# - profile-service-sync.yaml
-# - restaurant-service-sync.yaml
-# - session-service-sync.yaml
+  - auth-service-sync.yaml
+  - profile-service-sync.yaml
+  - restaurant-service-sync.yaml
+  - session-service-sync.yaml
