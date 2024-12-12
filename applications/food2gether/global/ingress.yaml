@@ -40,7 +40,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: fallback-service
+            name: api-fallback-service
             port:
               number: 80
       - path: /
