@@ -39,7 +39,9 @@ cleanup() {
 
 # make sure to create a fresh minikube cluster
 minikube delete
-minikube start --addons storage-provisioner,ingress,ingress-dns --no-vtx-check
+minikube start --no-vtx-check
+minikube addons enable ingress
+minikube addons enable ingress-dns
 
 trap cleanup EXIT
 
