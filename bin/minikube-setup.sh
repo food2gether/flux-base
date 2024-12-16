@@ -38,7 +38,11 @@ cleanup() {
 # Install minikube & bootstrap flux
 
 # make sure to create a fresh minikube cluster
-minikube delete
+if ! minikube delete; then
+  minikube delete
+  sleep 5
+fi
+
 minikube start --no-vtx-check
 minikube addons enable ingress
 minikube addons enable ingress-dns
