@@ -41,7 +41,7 @@ minikube start \
   --extra-config=apiserver.service-node-port-range=1-32767 \
   --ports=80:80 \
   --ports=443:443 \
-  --ports=$DB_PORT:$DB_PORT \
+  --ports="$DB_PORT:$DB_PORT" \
   --addons ingress
 
 trap cleanup EXIT
