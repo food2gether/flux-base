@@ -26,9 +26,9 @@ spec:
   interval: 1m0s
   values:
     config:
-      clientID: "${oauth2.clientID}"
-      clientSecret: "${oauth2.clientSecret}"
-      cookieSecret: "${oauth2.cookieSecret:=Qhf9cr4Ka0KppRneM12crmu-GN6bP0FyfhLzyf_BjYc=}"
+      clientID: "${oauth2_clientID}"
+      clientSecret: "${oauth2_clientSecret}"
+      cookieSecret: "${oauth2_cookieSecret:=Qhf9cr4Ka0KppRneM12crmu-GN6bP0FyfhLzyf_BjYc=}"
     ingress:
       enabled: true
       hosts:
@@ -38,8 +38,8 @@ spec:
       pathType: Prefix
 
       configFile: |
-        provider = "${oauth2.provider}"
-        ${oauth2.config:=}
+        provider = "${oauth2_provider}"
+        ${oauth2_config:=}
       # configFile: |
       #  custom_templates_dir = "/data/custom-templates"
 
