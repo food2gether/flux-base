@@ -38,10 +38,11 @@ spec:
         code_challenge_method = "${oauth2_code_challenge_method:=}"
         pass_authorization_header = true
         set_authorization_header = true
-        pass_user_headers = true
-        skip_auth_strip_headers = true
         set_xauthrequest = true
-        show_debug_headers = true
+
+        custom_sign_in_logo = "-"
+        banner = "This is a banner"
+        footer = "This is a footer"
     #    custom_templates_dir = "/data/custom-templates}"
     ingress:
       enabled: true
