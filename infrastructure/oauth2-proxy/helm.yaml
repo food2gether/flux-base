@@ -32,10 +32,10 @@ spec:
 
       configFile: |
         provider = "${oauth2_provider}"
-        email-domain = "${oauth2_email_domain:=*}"
+        email_domains = ${oauth2_email_domains:=["*"]}
         redirect_url = "${oauth2_redirect_url:=}"
         oidc_issuer_url = "${oauth2_oidc_issuer_url:=}"
-        code-challenge = "${oauth2_code_challenge:=}"
+        code_challenge_method = "${oauth2_code_challenge_method:=}"
     ingress:
       enabled: true
       hosts:
