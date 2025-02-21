@@ -41,6 +41,7 @@ spec:
         pass_user_headers = true
         skip_auth_strip_headers = true
         set_xauthrequest = true
+        show_debug_headers = true
     #    custom_templates_dir = "/data/custom-templates}"
     ingress:
       enabled: true
