@@ -36,6 +36,10 @@ spec:
         redirect_url = "${oauth2_redirect_url:=}"
         oidc_issuer_url = "${oauth2_oidc_issuer_url:=}"
         code_challenge_method = "${oauth2_code_challenge_method:=}"
+        pass_authorization_header = true
+        pass_user_headers = true
+        skip_auth_strip_headers = true
+    #    custom_templates_dir = "/data/custom-templates}"
     ingress:
       enabled: true
       hosts:
@@ -44,17 +48,45 @@ spec:
       path: /oauth2/
       pathType: Prefix
 
-      # configFile: |
-      #  custom_templates_dir = "/data/custom-templates"
-
       # extraVolumes:
-      #   - name: custom-templates
+      #   - name: oauth2-proxy-templates
       #     configMap:
-      #       name: oauth2-proxy-custom-templates
-      #
+      #       name: oauth2-proxy-templates
+      # 
       # extraVolumeMounts:
-      #   - name: custom-templates
+      #   - name: oauth2-proxy-templates
       #     mountPath: /data/custom-templates
       #     readOnly: true
 
-      # Custom tempaltes CongfiMap
+      # extraObjects:
+      #   - apiVersion: v1
+      #     kind: ConfigMap
+      #     metadata:
+      #       name: oauth2-proxy-templates
+      #       namespace: oauth2-proxy
+      #     data:
+      #       sign_in.html: |
+      #         <html>
+      #           <head>
+      #             <title>Sign In</title>
+      #           </head>
+      #           <body>
+      #             <h1>Sign In</h1>
+      #             <form method="post">
+      #               <input type="text" name="email" placeholder="Email" />
+      #               <input type="password" name="password" placeholder="Password" />
+      #               <input type="submit" value="Sign In" />
+      #             </form>
+      #           </body>
+      #         </html>
+      #       error.html: |
+      #         <html>
+      #           <head>
+      #             <title>Error</title>
+      #           </head>
+      #           <body>
+      #             <h1>Error</h1>
+      #             <p>{{ .Error }}</p>
+      #           </body>
+      #         </html>
+        
