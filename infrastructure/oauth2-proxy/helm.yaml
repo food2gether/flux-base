@@ -30,9 +30,7 @@ spec:
       clientSecret: "${oauth2_clientSecret}"
       cookieSecret: "${oauth2_cookieSecret:=Qhf9cr4Ka0KppRneM12crmu-GN6bP0FyfhLzyf_BjYc=}"
 
-      configFile: |
-        provider = "${oauth2_provider}"
-        ${oauth2_config:=}
+      configFile: ${oauth2_config:=email-domain = "*"\nprovider = "github"}
     ingress:
       enabled: true
       hosts:
