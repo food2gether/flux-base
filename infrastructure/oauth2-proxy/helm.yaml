@@ -29,6 +29,10 @@ spec:
       clientID: "${oauth2_clientID}"
       clientSecret: "${oauth2_clientSecret}"
       cookieSecret: "${oauth2_cookieSecret:=Qhf9cr4Ka0KppRneM12crmu-GN6bP0FyfhLzyf_BjYc=}"
+
+      configFile: |
+        provider = "${oauth2_provider}"
+        ${oauth2_config:=}
     ingress:
       enabled: true
       hosts:
@@ -37,9 +41,6 @@ spec:
       path: /oauth2/
       pathType: Prefix
 
-      configFile: |
-        provider = "${oauth2_provider}"
-        ${oauth2_config:=}
       # configFile: |
       #  custom_templates_dir = "/data/custom-templates"
 
