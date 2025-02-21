@@ -1,0 +1,56 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: oauth2-proxy
+  namespace: oauth2-proxy
+spec:
+  interval: 1m0s
+  url: https://oauth2-proxy.github.io/manifests
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: oauth2-proxy
+  namespace: oauth2-proxy
+spec:
+  chart:
+    spec:
+      chart: oauth2-proxy
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: oauth2-proxy
+        namespace: oauth2-proxy
+      version: 7.11.0
+  interval: 1m0s
+  values:
+    config:
+      clientID: "${oauth2.clientID}"
+      clientSecret: "${oauth2.clientSecret}"
+      cookieSecret: "${oauth2.cookieSecret:=Qhf9cr4Ka0KppRneM12crmu-GN6bP0FyfhLzyf_BjYc=}"
+    ingress:
+      enabled: true
+      hosts:
+        - '' # This matches any host (same as '*'; no host set)
+      className: nginx
+      path: /oauth2/
+      pathType: Prefix
+
+      configFile: |
+        provider = "${oauth2.provider}"
+        ${oauth2.config:=}
+      # configFile: |
+      #  custom_templates_dir = "/data/custom-templates"
+
+      # extraVolumes:
+      #   - name: custom-templates
+      #     configMap:
+      #       name: oauth2-proxy-custom-templates
+      #
+      # extraVolumeMounts:
+      #   - name: custom-templates
+      #     mountPath: /data/custom-templates
+      #     readOnly: true
+
+      # Custom tempaltes CongfiMap

@@ -14,3 +14,11 @@ spec:
     namespace: flux-system
   timeout: 2m0s
   wait: true
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: operators-config
+        optional: true
+      - kind: Secret
+        name: operators-secrets
+        optional: true

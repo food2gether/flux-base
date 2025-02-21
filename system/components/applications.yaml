@@ -17,3 +17,11 @@ spec:
     namespace: flux-system
   timeout: 2m0s
   wait: true
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: app-config
+        optional: true
+      - kind: Secret
+        name: app-secrets
+        optional: true

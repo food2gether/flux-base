@@ -16,3 +16,10 @@ spec:
     namespace: flux-system
   timeout: 2m0s
   wait: true
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: infra-config
+        optional: true
+      - kind: Secret
+        name: infra-secrets
