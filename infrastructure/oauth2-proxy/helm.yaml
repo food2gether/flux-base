@@ -36,7 +36,11 @@ spec:
         redirect_url = "${oauth2_redirect_url:=}"
         oidc_issuer_url = "${oauth2_oidc_issuer_url:=}"
         code_challenge_method = "${oauth2_code_challenge_method:=}"
-        set_xauthrequest = true # This is required for identifiying the user
+        pass_authorization_header = true
+        set_authorization_header = true
+        pass_user_headers = true
+        skip_auth_strip_headers = true
+        set_xauthrequest = true
     #    custom_templates_dir = "/data/custom-templates}"
     ingress:
       enabled: true
