@@ -4,7 +4,6 @@ resources:
   - global
   - api-fallback-service-sync.yaml
   - frontend-sync.yaml
-  - auth-service-sync.yaml
   - profile-service-sync.yaml
   - restaurant-service-sync.yaml
   - session-service-sync.yaml
