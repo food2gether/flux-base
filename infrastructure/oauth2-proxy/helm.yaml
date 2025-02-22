@@ -31,18 +31,13 @@ spec:
       cookieSecret: "${oauth2_cookieSecret:=Qhf9cr4Ka0KppRneM12crmu-GN6bP0FyfhLzyf_BjYc=}"
 
       configFile: |
+        upstreams: [ "file:///dev/null" ]
         provider = "${oauth2_provider}"
         email_domains = ${oauth2_email_domains:=["*"]}
         redirect_url = "${oauth2_redirect_url:=}"
         oidc_issuer_url = "${oauth2_oidc_issuer_url:=}"
         code_challenge_method = "${oauth2_code_challenge_method:=}"
-        pass_authorization_header = true
-        set_authorization_header = true
         set_xauthrequest = true
-
-        custom_sign_in_logo = "-"
-        banner = "This is a banner"
-        footer = "This is a footer"
     #    custom_templates_dir = "/data/custom-templates}"
     ingress:
       enabled: true
