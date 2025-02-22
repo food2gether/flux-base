@@ -39,6 +39,7 @@ spec:
         code_challenge_method = "${oauth2_code_challenge_method:=}"
         set_xauthrequest = true
         set_authorization_header = true
+        scopes = ["openid", "email", "profile"]
     #    custom_templates_dir = "/data/custom-templates}"
     ingress:
       enabled: true
