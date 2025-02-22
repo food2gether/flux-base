@@ -31,7 +31,7 @@ spec:
       cookieSecret: "${oauth2_cookieSecret:=Qhf9cr4Ka0KppRneM12crmu-GN6bP0FyfhLzyf_BjYc=}"
 
       configFile: |
-        upstreams: [ "file:///dev/null" ]
+        upstreams = [ "file:///dev/null" ]
         provider = "${oauth2_provider}"
         email_domains = ${oauth2_email_domains:=["*"]}
         redirect_url = "${oauth2_redirect_url:=}"
