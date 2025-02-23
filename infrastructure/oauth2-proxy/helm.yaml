@@ -40,8 +40,10 @@ spec:
         set_xauthrequest = true
         set_authorization_header = true
         pass_access_token = true
-        scope = "openid email profile read:user"
+        scope = "openid email profile read:user read:org"
         api_routes = "/api/*"
+        cookie_expire = 0 # Session cookie, valid until the browser is closed (testing)
+        cookie_refresh = "1m"
     #    custom_templates_dir = "/data/custom-templates}"
     ingress:
       enabled: true
