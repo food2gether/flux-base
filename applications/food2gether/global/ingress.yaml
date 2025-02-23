@@ -7,7 +7,7 @@ metadata:
     # auth is handled in ingress provided by oauth2-proxy helm chart
     nginx.ingress.kubernetes.io/auth-url: "http://$host/oauth2/auth"
     nginx.ingress.kubernetes.io/auth-signin: "http://$host/oauth2/login?rd=$escaped_request_uri"
-    nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User, X-Auth-Request-Email, X-Auth-Request-Preferred-Username"
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User, X-Auth-Request-Email, Authorization, X-Auth-Request-Preferred-Username"
     nginx.ingress.kubernetes.io/proxy-pass-header: "Authorization"
 spec:
   ingressClassName: nginx
