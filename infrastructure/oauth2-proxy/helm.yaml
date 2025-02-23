@@ -40,7 +40,7 @@ spec:
         set_xauthrequest = true
         set_authorization_header = true
         pass_access_token = true
-        scope = "openid email profile read:user read:org"
+        scope = "openid email profile read:user user:email read:org"
         api_routes = "/api/*"
         cookie_expire = 0 # Session cookie, valid until the browser is closed (testing)
         cookie_refresh = "1m"
