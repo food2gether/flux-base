@@ -40,7 +40,7 @@ spec:
         scope = "openid email profile read:user user:email read:org"
         api_routes = "/api/*"
         cookie_expire = 0 # Session cookie, valid until the browser is closed (testing)
-        cookie_refresh = "1m"
+        cookie_refresh = "12h"
     #    custom_templates_dir = "/data/custom-templates}"
     ingress:
       enabled: true
