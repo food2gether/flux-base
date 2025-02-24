@@ -41,6 +41,11 @@ spec:
         api_routes = "/api/*"
         cookie_expire = 0 # Session cookie, valid until the browser is closed (testing)
         cookie_refresh = "12h"
+
+        skip_auth_strip_headers = false
+        pass_authorization_header = true
+        pass_access_token = true
+        set_xauthrequest = true
     #    custom_templates_dir = "/data/custom-templates}"
     ingress:
       enabled: true
