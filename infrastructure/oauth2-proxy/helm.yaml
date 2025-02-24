@@ -38,7 +38,7 @@ spec:
         oidc_issuer_url = "${oauth2_oidc_issuer_url:=}"
         upstreams = [ "file:///dev/null" ]
         set_xauthrequest = true
-        set_authorization_header = true
+        pass_authorization_header = true
         pass_access_token = true
         skip_auth_strip_headers = false
         scope = "openid email profile read:user user:email read:org"
