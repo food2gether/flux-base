@@ -51,6 +51,11 @@ spec:
             values:
               - claim: id_token
                 prefix: "Bearer "
+        injectRequestHeaders:
+          - name: Authorization
+            values:
+              - claim: id_token
+                prefix: "Bearer "
     ingress:
       enabled: true
       hosts:
