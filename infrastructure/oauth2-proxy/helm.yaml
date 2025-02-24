@@ -33,7 +33,6 @@ spec:
       configFile: |
         email_domains = ${oauth2_email_domains:=["*"]}
         redirect_url = "${oauth2_redirect_url:=}"
-        code_challenge_method = "${oauth2_code_challenge_method:=}"
         api_routes = "/api/*"
         cookie_expire = 0 # Session cookie, valid until the browser is closed (testing)
         cookie_refresh = "12h"
