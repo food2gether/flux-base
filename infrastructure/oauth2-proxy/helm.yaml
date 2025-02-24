@@ -31,22 +31,27 @@ spec:
       cookieSecret: "${oauth2_cookieSecret:=Qhf9cr4Ka0KppRneM12crmu-GN6bP0FyfhLzyf_BjYc=}"
 
       configFile: |
-        provider = "${oauth2_provider}"
         email_domains = ${oauth2_email_domains:=["*"]}
         redirect_url = "${oauth2_redirect_url:=}"
         code_challenge_method = "${oauth2_code_challenge_method:=}"
-        oidc_issuer_url = "${oauth2_oidc_issuer_url:=}"
-        upstreams = [ "file:///dev/null" ]
-        scope = "openid email profile read:user user:email read:org"
         api_routes = "/api/*"
         cookie_expire = 0 # Session cookie, valid until the browser is closed (testing)
         cookie_refresh = "12h"
-
-        skip_auth_strip_headers = false
-        pass_authorization_header = true
-        set_xauthrequest = true
-        set_authorization_header = true
-    #    custom_templates_dir = "/data/custom-templates}"
+    alphaConfig:
+      enabled: true
+      configFile: |
+        providers:
+          - id: github
+            name: GitHub
+            scope: "profile email read:user user:email"
+            provider: github
+            clientID: "${oauth2_clientID}"
+            clientSecret: "${oauth2_clientSecret}"
+        injectResponseHeaders:
+          - name: Authorization
+            values:
+              - claim: id_token
+                prefix: "Bearer "
     ingress:
       enabled: true
       hosts:
