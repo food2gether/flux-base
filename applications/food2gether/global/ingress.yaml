@@ -9,8 +9,6 @@ metadata:
     nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth"
     nginx.ingress.kubernetes.io/auth-signin: "http://$host/oauth2/login?rd=$escaped_request_uri"
     nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User, X-Auth-Request-Email, Authorization, X-Auth-Request-Preferred-Username"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header Authorization $http_authorization;
 spec:
   ingressClassName: nginx
   rules:
