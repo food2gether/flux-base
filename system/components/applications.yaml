@@ -17,6 +17,9 @@ spec:
   timeout: 2m0s
   wait: true
   postBuild:
+    substitute:
+      # Workaround if not values are present
+      var_substitution_enabled: "true"
     substituteFrom:
       - kind: Secret
         name: food2gether-config
