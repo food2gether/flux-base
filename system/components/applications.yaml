@@ -6,8 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infrastructure
-    - name: operators
+    - name: dev-infra
   interval: 1m0s
   path: ./applications
   prune: true
@@ -18,10 +17,10 @@ spec:
   timeout: 2m0s
   wait: true
   postBuild:
+    substitute:
+      # Workaround if not values are present
+      var_substitution_enabled: "true"
     substituteFrom:
-      - kind: ConfigMap
-        name: app-config
-        optional: true
       - kind: Secret
-        name: app-secrets
+        name: food2gether-config
         optional: true

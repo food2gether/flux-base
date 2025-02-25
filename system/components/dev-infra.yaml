@@ -2,11 +2,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: operators
+  name: dev-infra
   namespace: flux-system
 spec:
+  targetNamespace: food2gether
   interval: 1m0s
-  path: ./operators
+  path: ./dev-infra
   prune: true
   sourceRef:
     kind: GitRepository
@@ -14,11 +15,3 @@ spec:
     namespace: flux-system
   timeout: 2m0s
   wait: true
-  postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: operators-config
-        optional: true
-      - kind: Secret
-        name: operators-secrets
-        optional: true
