@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgresql
+  namespace: food2gether
 spec:
   selector:
     app: postgresql
