@@ -8,7 +8,7 @@ metadata:
     # via the external api
     nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.oauth2-proxy.svc.cluster.local/oauth2/auth"
     nginx.ingress.kubernetes.io/auth-signin: "http://$host/oauth2/login?rd=$escaped_request_uri"
-    nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User, X-Auth-Request-Email, Authorization, X-Forwarded-Access-Token"
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-Id-Token, X-Access-Token, X-Email, X-User, X-Preferred-Username"
 spec:
   ingressClassName: nginx
   rules:

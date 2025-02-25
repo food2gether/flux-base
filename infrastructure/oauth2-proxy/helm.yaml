@@ -58,7 +58,7 @@ spec:
           - name: X-Email
             values:
               - claim: email
-          - name: X-ser
+          - name: X-User
             values:
               - claim: user
           - name: X-Preferred-Username
