@@ -42,7 +42,7 @@ spec:
         providers:
           - id: github
             name: GitHub
-            scope: "profile email read:user user:email"
+            scope: "profile email read:user user:email read:org"
             provider: github
             clientID: "${oauth2_clientID}"
             clientSecret: "${oauth2_clientSecret}"
