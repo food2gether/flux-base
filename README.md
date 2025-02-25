@@ -21,11 +21,11 @@ Alternatively, you can do it manually:
 ```bash
 minikube start \
   --driver=docker \
-  --extra-config=apiserver.service-node-port-range=1-32767 \ # This allows to expose the database via notePort
-  --ports=80:80 \ # Hack to allow the ingress to work
-  --ports=443:443 \ # Same for HTTPS
-  --ports="5432:5432" \ # Expose the database port
-  --addons ingress # Install ingress controller
+  --extra-config=apiserver.service-node-port-range=1-32767 \
+  --ports=80:80 \
+  --ports=443:443 \
+  --ports="5432:5432" \
+  --addons ingress
 flux bootstrap github \
   --token-auth \
   --owner=food2gether \
