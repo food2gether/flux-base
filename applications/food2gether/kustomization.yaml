@@ -9,14 +9,11 @@ resources:
   - restaurant-service-sync.yaml
   - session-service-sync.yaml
 
-# patch all resources of kind GitRepository to be in the namespace flux-system
-# This is important to be able to access the flux-system secret
-patchesJson6902:
-  - target:
-      group: source.toolkit.fluxcd.io
-      version: v1
-      kind: GitRepository
-    patch: |
-      - op: replace
-        path: /metadata/namespace
-        value: flux-system
+transformers:
+  - |
+    apiVersion: builtin
+    kind: NamespaceTransformer
+    metadata:
+      name: flux-system-transformer
+      namespace: flux-system
+    unsetOnly: true
