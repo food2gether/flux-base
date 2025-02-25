@@ -5,7 +5,6 @@ metadata:
   name: applications
   namespace: flux-system
 spec:
-  targetNamespace: food2gether
   dependsOn:
     - name: dev-infra
   interval: 1m0s
