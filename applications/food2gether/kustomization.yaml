@@ -11,7 +11,7 @@ resources:
 
 # patch all resources of kind GitRepository to be in the namespace flux-system
 # This is important to be able to access the flux-system secret
-patches:
+patchesJson6902:
   - target:
       group: source.toolkit.fluxcd.io
       version: v1
