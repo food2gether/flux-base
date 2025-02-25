@@ -60,17 +60,13 @@ fi
 
 # Expose databasae for local development
 # The database it gonna be available at localhost:5453
-kubectl patch service postgresql-rw -n postgresql --type=json --patch='[{"op": "replace", "path": "/spec/type", "value": "NodePort"}]'
-kubectl patch service postgresql-rw -n postgresql --type=json --patch='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value": '$DB_PORT'}]'
-
-DB_NAME=$(kubectl get secret postgresql-app -n food2gether -o jsonpath="{.data.dbname}" | base64 --decode)
-DB_USER=$(kubectl get secret postgresql-app -n food2gether -o jsonpath="{.data.user}" | base64 --decode)
-DB_PASSWORD=$(kubectl get secret postgresql-app -n food2gether -o jsonpath="{.data.password}" | base64 --decode)
+kubectl patch service postgresql -n food2gether --type=json --patch='[{"op": "replace", "path": "/spec/type", "value": "NodePort"}]'
+kubectl patch service postgresql -n food2gether --type=json --patch='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value": '$DB_PORT'}]'
 
 clear
 echo ""
 echo "Setup complete. You can now access the application at http://localhost/"
-echo "The database is available at postgres://$DB_USER:$DB_PASSWORD@localhost:$DB_PORT/$DB_NAME" 
+echo "The database is available at postgres://username:password@localhost:$DB_PORT/food2gether" 
 echo "Press Q to exit and remove the minikube cluster"
 while true; do
   read -srn1 REPLY < /dev/tty
