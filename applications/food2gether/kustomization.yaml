@@ -8,3 +8,15 @@ resources:
   - profile-service-sync.yaml
   - restaurant-service-sync.yaml
   - session-service-sync.yaml
+
+# patch all resources of kind GitRepository to be in the namespace flux-system
+# This is important to be able to access the flux-system secret
+patches:
+  - target:
+      group: source.toolkit.fluxcd.io
+      version: v1
+      kind: GitRepository
+    patch: |
+      - op: replace
+        path: /metadata/namespace
+        value: flux-system
