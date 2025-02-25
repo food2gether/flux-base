@@ -47,15 +47,15 @@ spec:
             clientID: "${oauth2_clientID}"
             clientSecret: "${oauth2_clientSecret}"
         injectResponseHeaders:
-          - name: Authorization
+          - name: X-Auth-Request-Token
             values:
               - claim: id_token
-                prefix: "Bearer "
-        injectRequestHeaders:
-          - name: Authorization
+          - name: X-Auth-Request-Email
             values:
-              - claim: id_token
-                prefix: "Bearer "
+              - claim: email
+          - name: X-Auth-Request-User
+            values:
+              - claim: email
     ingress:
       enabled: true
       hosts:
