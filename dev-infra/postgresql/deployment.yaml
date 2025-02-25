@@ -1,0 +1,72 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+  labels:
+    app: postgresql
+spec:
+  selector:
+    matchLabels:
+      app: postgresql
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container:  postgresql
+      labels:
+        app: postgresql
+    spec:
+      containers:
+      - name: postgresql
+        image: postgresql:17.4
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        livenessProbe:
+          tcpSocket:
+            port: 5432
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command: [ "pg_isready", "-d", "$POSTGRES_DB", "-U", "$POSTGRES_USER" ]
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        env:
+        - name: POSTGRES_PASSWORD
+          value: password
+        - name: POSTGRES_USER
+          value: username
+        - name: POSTGRES_DB
+          value: food2gether
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        ports:
+        - containerPort: 80
+          name: postgresql
+        volumeMounts:
+        - name: pgdata
+          mountPath: /var/lib/postgresql/data/pgdata
+      volumes:
+        - name: pgdata
+          hostPath:
+            path: /var/mnt/postgresql/data
+      restartPolicy: Always
+---

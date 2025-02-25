@@ -5,9 +5,9 @@ metadata:
   name: applications
   namespace: flux-system
 spec:
+  targetNamespace: food2gether
   dependsOn:
-    - name: infrastructure
-    - name: operators
+    - name: dev-infra
   interval: 1m0s
   path: ./applications
   prune: true
