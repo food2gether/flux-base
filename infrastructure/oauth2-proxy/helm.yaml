@@ -36,6 +36,8 @@ spec:
         api_routes = "/api/*"
         cookie_expire = 0 # Session cookie, valid until the browser is closed (testing)
         cookie_refresh = "12h"
+        silence_ping_logging = true
+
     alphaConfig:
       enabled: true
       configFile: |
