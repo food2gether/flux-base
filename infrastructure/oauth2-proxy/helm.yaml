@@ -49,19 +49,19 @@ spec:
             clientID: "${oauth2_clientID}"
             clientSecret: "${oauth2_clientSecret}"
         injectResponseHeaders:
-          - name: X-Auth-Request-Id-Token
+          - name: X-Id-Token
             values:
               - claim: id_token 
-          - name: X-Auth-Request-Access-Token
+          - name: X-Access-Token
             values:
               - claim: access_token
-          - name: X-Auth-Request-Email
+          - name: X-Email
             values:
               - claim: email
-          - name: X-Auth-Request-User
+          - name: X-ser
             values:
               - claim: user
-          - name: X-Auth-Request-Preferred-Username
+          - name: X-Preferred-Username
             values:
               - claim: preferred_username
     ingress:
