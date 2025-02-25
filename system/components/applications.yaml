@@ -16,3 +16,8 @@ spec:
     namespace: flux-system
   timeout: 2m0s
   wait: true
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: food2gether-config
+        optional: true
