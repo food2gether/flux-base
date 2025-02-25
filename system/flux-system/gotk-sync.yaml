@@ -8,7 +8,7 @@ metadata:
 spec:
   interval: 1m0s
   ref:
-    branch: main
+    branch: 008-db-secret
   secretRef:
     name: flux-system
   url: https://github.com/food2gether/flux-base.git
