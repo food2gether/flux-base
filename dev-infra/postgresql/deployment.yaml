@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: postgresql
-        image: postgresql:17.4
+        image: postgres:17.4
         imagePullPolicy: IfNotPresent
         resources:
           requests:
