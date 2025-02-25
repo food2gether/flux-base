@@ -46,15 +46,16 @@ minikube start \
   --ports="$DB_PORT:$DB_PORT" \
   --addons ingress
 
-if [ -n "$application_component" ] && ! minikube ssh -- ping -c 1 host.minikube.internal; then
-  echo "Failed to resolve host.minikube.internal. Trying to replace hosts entry manually."
-  ip_address=$(ipconfig getifaddr en0)
-  if ! minikube ssh -- sed -E "'"'s/^.*(\shost\.minikube\.internal)/'`$ip_address`'\1/g'"'" /etc/hosts '|' sudo tee /etc/hosts.new '&&' cat /etc/hosts.new '|' sudo tee /etc/hosts >> /dev/null; then
-    echo "Failed to replace hosts entry. You might not be able to access your application."
-  fi
-else
-  echo "Hosts entry is already set up."
-fi
+# Temp disabled => seems to work now?
+# if false && [ -n "$application_component" ] && ! minikube ssh -- curl host.minikube.internal:8080 > /dev/null; then
+#   echo "Failed to resolve host.minikube.internal. Trying to replace hosts entry manually."
+#   ip_address=$(ipconfig getifaddr en0)
+#   if ! minikube ssh -- sed -E "'"'s/^.*(\shost\.minikube\.internal)/'`$ip_address`'\1/g'"'" /etc/hosts '|' sudo tee /etc/hosts.new '&&' cat /etc/hosts.new '|' sudo tee /etc/hosts >> /dev/null; then
+#     echo "Failed to replace hosts entry. You might not be able to access your application."
+#   fi
+# else
+#   echo "Hosts entry is already set up."
+# fi
 
 flux bootstrap github --token-auth --owner=food2gether --repository=flux-base --branch=main --path=system <<< "$github_pat"
 echo "";
