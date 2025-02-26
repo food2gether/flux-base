@@ -8,11 +8,7 @@ metadata:
 spec:
   interval: 1m0s
   ref:
-<<<<<<< HEAD
     branch: 005-oauth2-proxy
-=======
-    branch: main
->>>>>>> 3275078 (Add Flux sync manifests)
   secretRef:
     name: flux-system
   url: https://github.com/food2gether/flux-base.git
