@@ -32,7 +32,7 @@ spec:
 
       configFile: |
         email_domains = =["*"]
-        redirect_url = "${oauth2_redirect_url:=}"
+        redirect_url = "${oauth2_redirectUrl:=}"
         api_routes = "/api/*"
         cookie_expire = 0 # Session cookie, valid until the browser is closed (testing)
         cookie_refresh = "12h"
@@ -52,16 +52,10 @@ spec:
               ${oauth2_providerConfig:=}
             }
         injectResponseHeaders:
-          - name: X-Id-Token
-            values:
-              - claim: id_token 
-          - name: X-Access-Token
-            values:
-              - claim: access_token
-          - name: X-Email
+          - name: X-User-Email
             values:
               - claim: email
-          - name: X-User
+          - name: X-User-Username
             values:
               - claim: user
           - name: X-Preferred-Username
