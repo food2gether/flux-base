@@ -31,7 +31,7 @@ spec:
       cookieSecret: "${oauth2_cookieSecret:=Qhf9cr4Ka0KppRneM12crmu-GN6bP0FyfhLzyf_BjYc=}"
 
       configFile: |
-        email_domains = ${oauth2_email_domains:=["*"]}
+        email_domains = =["*"]
         redirect_url = "${oauth2_redirect_url:=}"
         api_routes = "/api/*"
         cookie_expire = 0 # Session cookie, valid until the browser is closed (testing)
@@ -42,12 +42,15 @@ spec:
       enabled: true
       configFile: |
         providers:
-          - id: github
-            name: GitHub
-            scope: "profile email read:user user:email read:org"
-            provider: github
-            clientID: "${oauth2_clientID}"
-            clientSecret: "${oauth2_clientSecret}"
+          - {
+              id: "primary",
+              name: "SSO"",
+              scope: "profile email read:user user:email read:org",
+              provider: "${oauth2_providerType}",
+              clientID: "${oauth2_clientID}",
+              clientSecret: "${oauth2_clientSecret}",
+              ${oauth2_providerConfig:=}
+            }
         injectResponseHeaders:
           - name: X-Id-Token
             values:
