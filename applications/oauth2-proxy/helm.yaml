@@ -31,7 +31,7 @@ spec:
       cookieSecret: "${oauth2_cookieSecret:=Qhf9cr4Ka0KppRneM12crmu-GN6bP0FyfhLzyf_BjYc=}"
 
       configFile: |
-        email_domains = =["*"]
+        email_domains = ["*"]
         redirect_url = "${oauth2_redirectUrl:=}"
         api_routes = "/api/*"
         cookie_expire = 0 # Session cookie, valid until the browser is closed (testing)
@@ -45,7 +45,7 @@ spec:
         providers:
           - {
               id: "primary",
-              name: "SSO"",
+              name: "SSO",
               scope: "profile email read:user user:email read:org",
               provider: "${oauth2_providerType}",
               clientID: "${oauth2_clientID}",
