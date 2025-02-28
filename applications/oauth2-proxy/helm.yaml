@@ -26,10 +26,6 @@ spec:
   interval: 1m0s
   values:
     config:
-      clientID: "${oauth2_clientID}"
-      clientSecret: "${oauth2_clientSecret}"
-      cookieSecret: "${oauth2_cookieSecret:=Qhf9cr4Ka0KppRneM12crmu-GN6bP0FyfhLzyf_BjYc=}"
-
       configFile: |
         email_domains = ["*"]
         redirect_url = "${oauth2_redirectUrl:=}"
@@ -38,7 +34,7 @@ spec:
         cookie_secret = "${oauth2_cookieSecret:=cHzIp0nWtEWMrlIIZaI07yXnS6Mtwq-q87Dke9OJglc=}"
         cookie_refresh = "12h"
         silence_ping_logging = true
-        skip_auth_routes = [ "^/login" ]
+        skip_auth_routes = [ "^/login.*$" ]
     alphaConfig:
       enabled: true
       configFile: |
