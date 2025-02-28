@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: food2gether
-  namespace: food2gether
+  namespace: ${namespace}
   annotations:
     # auth-url will be called by oauth2-proxy inside the cluster. There is no need to resolve this
     # via the external api
