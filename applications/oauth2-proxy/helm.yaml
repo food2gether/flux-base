@@ -42,7 +42,6 @@ spec:
           - {
               id: "primary",
               name: "SSO",
-              scope: "profile email read:user user:email read:org",
               provider: "${oauth2_providerType}",
               clientID: "${oauth2_clientID}",
               clientSecret: "${oauth2_clientSecret}",
