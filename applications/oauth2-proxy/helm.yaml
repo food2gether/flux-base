@@ -60,7 +60,7 @@ spec:
     ingress:
       enabled: true
       hosts:
-        - '*'
+        - ''
       className: nginx
       path: /oauth2/
       pathType: Prefix
