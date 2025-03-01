@@ -65,6 +65,12 @@ spec:
       className: nginx
       path: /oauth2/
       pathType: Prefix
+      extraPaths:
+        - path: /login
+          backend:
+            service:
+              name: frontend
+              port: 80
 
       # extraVolumes:
       #   - name: oauth2-proxy-templates
