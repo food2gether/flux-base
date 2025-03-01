@@ -67,10 +67,12 @@ spec:
       pathType: Prefix
       extraPaths:
         - path: /login
+          pathType: Prefix
           backend:
             service:
               name: frontend
-              port: 80
+              port: 
+                number: 80
 
       # extraVolumes:
       #   - name: oauth2-proxy-templates
