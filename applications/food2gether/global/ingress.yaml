@@ -15,6 +15,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
+  - http:
+      paths:
       - path: /
         pathType: Prefix
         backend:
@@ -32,6 +34,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.${namespace}.svc.cluster.local/oauth2/auth"
     nginx.ingress.kubernetes.io/auth-response-headers: "X-User-Email, X-User-Username, X-Preferred-Username"
 spec:
+  rules:
   - http:
       paths:
       - path: /api/v1/restaurants
