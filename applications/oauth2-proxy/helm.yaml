@@ -29,7 +29,6 @@ spec:
       configFile: |
         email_domains = ["*"]
         redirect_url = "${oauth2_redirectUrl:=}"
-        api_routes = "/api/*"
         cookie_expire = 0 # Session cookie, valid until the browser is closed (testing)
         cookie_secret = "${oauth2_cookieSecret:=cHzIp0nWtEWMrlIIZaI07yXnS6Mtwq-q87Dke9OJglc=}"
         cookie_refresh = "12h"
