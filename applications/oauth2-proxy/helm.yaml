@@ -62,19 +62,3 @@ spec:
       className: nginx
       path: /oauth2/
       pathType: Prefix
-      extraPaths:
-        # allow custom login page at frontend
-        - path: /login
-          pathType: Prefix
-          backend:
-            service:
-              name: frontend
-              port:
-                number: 80
-        - path: /assets
-          pathType: Prefix
-          backend:
-            service:
-              name: frontend
-              port:
-                number: 80

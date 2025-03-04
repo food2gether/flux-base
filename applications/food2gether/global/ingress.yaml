@@ -1,4 +1,49 @@
-# There is another ingress managed by oauth2-proxy helm chart which contains the login page, too.
+# https://kubernetes.io/docs/concepts/services-networking/ingress/
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: food2gether-unsecured
+  namespace: ${namespace}
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /login
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+      - path: /assets
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+      # dev dependencies
+      - path: /@vite
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+      - path: /@modules
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+      - path: /@react-refresh
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
