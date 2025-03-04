@@ -34,7 +34,6 @@ spec:
         cookie_secret = "${oauth2_cookieSecret:=cHzIp0nWtEWMrlIIZaI07yXnS6Mtwq-q87Dke9OJglc=}"
         cookie_refresh = "12h"
         silence_ping_logging = true
-        skip_auth_routes = [ ".*login.*", ".*assets.*" ]
     alphaConfig:
       enabled: true
       configFile: |
@@ -64,3 +63,19 @@ spec:
       className: nginx
       path: /oauth2/
       pathType: Prefix
+      extraPaths:
+        # allow custom login page at frontend
+        - path: /login
+          pathType: Prefix
+          backend:
+            service:
+              name: frontend
+              port:
+                number: 80
+        - path: /assets
+          pathType: Prefix
+          backend:
+            service:
+              name: frontend
+              port:
+                number: 80
