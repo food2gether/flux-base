@@ -34,7 +34,7 @@ spec:
         cookie_secret = "${oauth2_cookieSecret:=cHzIp0nWtEWMrlIIZaI07yXnS6Mtwq-q87Dke9OJglc=}"
         cookie_refresh = "12h"
         silence_ping_logging = true
-        skip_auth_routes = [ "GET=^/login", "GET=^/assets" ]
+        skip_auth_routes = [ "^/login" ]
     alphaConfig:
       enabled: true
       configFile: |
