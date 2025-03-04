@@ -1,11 +1,37 @@
-# https://kubernetes.io/docs/concepts/services-networking/ingress/
+# There is another ingress managed by oauth2-proxy helm chart which contains the login page, too.
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: food2gether
-  namespace: food2gether
+  name: food2gether-frontend
+  namespace: ${namespace}
+  annotations:
+    # auth-url will be called by oauth2-proxy inside the cluster. There is no need to resolve this
+    # via the external api
+    nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.${namespace}.svc.cluster.local/oauth2/auth"
+    # TODO login page
+    nginx.ingress.kubernetes.io/auth-signin: "http://$host/login?rd=$escaped_request_uri"
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-User-Email, X-User-Username, X-Preferred-Username"
 spec:
+  ingressClassName: nginx
   rules:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: food2gether-api
+  namespace: ${namespace}
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.${namespace}.svc.cluster.local/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-User-Email, X-User-Username, X-Preferred-Username"
+spec:
   - http:
       paths:
       - path: /api/v1/restaurants
@@ -36,11 +62,3 @@ spec:
             name: api-fallback-service
             port:
               number: 80
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend
-            port:
-              number: 80
----

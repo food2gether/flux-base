@@ -1,0 +1,80 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: oauth2-proxy
+  namespace: ${namespace}
+spec:
+  interval: 1m0s
+  url: https://oauth2-proxy.github.io/manifests
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: oauth2-proxy
+  namespace: ${namespace}
+spec:
+  chart:
+    spec:
+      chart: oauth2-proxy
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: oauth2-proxy
+        namespace: ${namespace}
+      version: 7.11.0
+  interval: 1m0s
+  values:
+    config:
+      configFile: |
+        email_domains = ["*"]
+        redirect_url = "${oauth2_redirectUrl:=}"
+        cookie_expire = 0 # Session cookie, valid until the browser is closed (testing)
+        cookie_secret = "${oauth2_cookieSecret:=cHzIp0nWtEWMrlIIZaI07yXnS6Mtwq-q87Dke9OJglc=}"
+        cookie_refresh = "12h"
+        silence_ping_logging = true
+    alphaConfig:
+      enabled: true
+      configFile: |
+        providers:
+          - {
+              id: "primary",
+              name: "SSO",
+              provider: "${oauth2_providerType}",
+              clientID: "${oauth2_clientID}",
+              clientSecret: "${oauth2_clientSecret}",
+              ${oauth2_providerConfig:=}
+            }
+        injectResponseHeaders:
+          - name: X-User-Email
+            values:
+              - claim: email
+          - name: X-User-Username
+            values:
+              - claim: user
+          - name: X-Preferred-Username
+            values:
+              - claim: preferred_username
+    ingress:
+      enabled: true
+      hosts:
+        - ''
+      className: nginx
+      path: /oauth2/
+      pathType: Prefix
+      extraPaths:
+        # allow custom login page at frontend
+        - path: /login
+          pathType: Prefix
+          backend:
+            service:
+              name: frontend
+              port:
+                number: 80
+        - path: /assets
+          pathType: Prefix
+          backend:
+            service:
+              name: frontend
+              port:
+                number: 80
