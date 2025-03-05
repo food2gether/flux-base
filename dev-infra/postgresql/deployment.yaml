@@ -27,6 +27,21 @@ spec:
       - name: postgresql
         image: postgres:17.4-alpine
         imagePullPolicy: IfNotPresent
+        lifecycle:
+          postStart:
+            exec:
+              command:
+              - psql
+              - -U $POSTGRES_USER
+              - -d $POSTGRES_DB
+              - -c "INSERT INTO profiles (displayname, name, primaryemail, profilePictureUrl) VALUES ('Robin Ahin', 'flobbin', 'robbin@example.com', 'https://robin-ahn.de/assets/avatar.svg');"
+              - -c "INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Jo Gengnagel', 'jogen', 'jo.gengnagel@exmaple.com');"
+              - -c "INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Kaan Güven', 'kanngvn_', 'ich.kaan.das.nicht.mehr@exmaple.com');"
+              - -c "INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Nikolas Iliadi', 'vonnovo', 'vonnovo@exmaple.com');"
+              - -c "INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Marvin Haase', 'marfien', 'contact@marfien.dev');"
+              - -c "INSERT INTO restaurants (address_city, address_county, address_postal_code, address_street, displayname) VALUES ('Aachen', 'Germany', '52062', 'Pontstraße 151', 'Habibna');"
+              - -c "INSERT INTO menu_items (price, restaurant_id, description, name) VALUES (500, 1, 'Gegrilltes Hähnchenfleich eingelegt in einer libanesischen Marinade, Fritten, Salat, Beirut Sauce', '40. Schawarma Djej');"
+              - -c "INSERT INTO menu_items (price, restaurant_id, description, name) VALUES (450, 1, 'Gebratenes Gemüse, Salat, Hummus, Käse, Beirut Sauce', '51. Maali');"
         resources:
           requests:
             cpu: 100m
