@@ -32,6 +32,7 @@ spec:
             exec:
               command:
               - psql
+              args:
               - -U $POSTGRES_USER
               - -d $POSTGRES_DB
               - -c "INSERT INTO profiles (displayname, name, primaryemail, profilePictureUrl) VALUES ('Robin Ahin', 'flobbin', 'robbin@example.com', 'https://robin-ahn.de/assets/avatar.svg');"
