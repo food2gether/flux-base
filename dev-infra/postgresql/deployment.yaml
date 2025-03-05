@@ -70,10 +70,10 @@ spec:
         command: [ "/bin/sh", "-c" ]
         args:
         - |
-          until pg_isready -U username -d food2gether; do echo "Wait for postgres to be ready"; sleep 5; done
-          until psql -U username -d food2gether -tAc "SELECT 1 FROM pg_tables WHERE tablename = 'profiles'" | grep -q 1; do echo "Waiting for profiles table to be created"; sleep 5; done
-          until psql -U username -d food2gether -tAc "SELECT 1 FROM pg_tables WHERE tablename = 'restaurants'" | grep -q 1; do echo "Waiting for restaurants table to be created"; sleep 5; done
-          until psql -U username -d food2gether -tAc "SELECT 1 FROM pg_tables WHERE tablename = 'menu_items'" | grep -q 1; do echo "Waiting for menu_items table to be created"; sleep 5; done
+          until pg_isready -h localhost -U username -d food2gether; do echo "Wait for postgres to be ready"; sleep 5; done
+          until echo 'password' | psql -h localhost -U username -d food2gether -tAc "SELECT 1 FROM pg_tables WHERE tablename = 'profiles'" | grep -q 1; do echo "Waiting for profiles table to be created"; sleep 5; done
+          until echo 'password' | psql -h localhost -U username -d food2gether -tAc "SELECT 1 FROM pg_tables WHERE tablename = 'restaurants'" | grep -q 1; do echo "Waiting for restaurants table to be created"; sleep 5; done
+          until echo 'password' | psql -h localhost -U username -d food2gether -tAc "SELECT 1 FROM pg_tables WHERE tablename = 'menu_items'" | grep -q 1; do echo "Waiting for menu_items table to be created"; sleep 5; done
 
           cat << EOF > test-data.sql
           INSERT INTO profiles (displayname, name, primaryemail, profilePictureUrl) VALUES ('Robin Ahin', 'flobbin', 'robbin@example.com', 'https://robin-ahn.de/assets/avatar.svg');
