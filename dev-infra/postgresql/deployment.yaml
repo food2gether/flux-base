@@ -23,24 +23,6 @@ spec:
       labels:
         app: postgresql
     spec:
-      initContainers:
-      - name: test-data
-        image: busybox
-        command: [ "/bin/sh", "-c" ]
-        args:
-        - |
-          until pg_isready -d $POSTGRES_DB -U $POSTGRES_USER; do sleep 5; done
-          cat << EOF > test-data.sql
-          INSERT INTO profiles (displayname, name, primaryemail, profilePictureUrl) VALUES ('Robin Ahin', 'flobbin', 'robbin@example.com', 'https://robin-ahn.de/assets/avatar.svg');
-          INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Jo Gengnagel', 'jogen', 'jo.gengnagel@exmaple.com');
-          INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Kaan Güven', 'kanngvn_', 'ich.kaan.das.nicht.mehr@exmaple.com');
-          INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Nikolas Iliadi', 'vonnovo', 'vonnovo@exmaple.com');
-          INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Marvin Haase', 'marfien', 'contact@marfien.dev');
-          INSERT INTO restaurants (address_city, address_county, address_postal_code, address_street, displayname) VALUES ('Aachen', 'Germany', '52062', 'Pontstraße 151', 'Habibna');
-          INSERT INTO menu_items (price, restaurant_id, description, name) VALUES (500, 1, 'Gegrilltes Hähnchenfleich eingelegt in einer libanesischen Marinade, Fritten, Salat, Beirut Sauce', '40. Schawarma Djej');
-          INSERT INTO menu_items (price, restaurant_id, description, name) VALUES (450, 1, 'Gebratenes Gemüse, Salat, Hummus, Käse, Beirut Sauce', '51. Maali');
-          EOF
-          psql -U $POSTGRES_USER -d $POSTGRES_DB -f test-data.sql
       containers:
       - name: postgresql
         image: postgres:17.4-alpine
@@ -83,6 +65,28 @@ spec:
         volumeMounts:
         - name: pgdata
           mountPath: /var/lib/postgresql/data/pgdata
+      - name: test-data
+        image: busybox
+        command: [ "/bin/sh", "-c" ]
+        restartPolicy: Never
+        args:
+        - |
+          until pg_isready -d $POSTGRES_DB -U $POSTGRES_USER; do echo "Waiting for postgres to be ready"; sleep 5; done
+          util psql -U $POSTGRES_USER -d $POSTGRES_DB -tAc "SELECT 1 FROM pg_tables WHERE tablename = 'profiles'" | grep -q 1; do echo "Waiting for profiles table to be created"; sleep 5; done
+          util psql -U $POSTGRES_USER -d $POSTGRES_DB -tAc "SELECT 1 FROM pg_tables WHERE tablename = 'restaurants'" | grep -q 1; do echo "Waiting for restaurants table to be created"; sleep 5; done
+          util psql -U $POSTGRES_USER -d $POSTGRES_DB -tAc "SELECT 1 FROM pg_tables WHERE tablename = 'menu_items'" | grep -q 1; do echo "Waiting for menu_items table to be created"; sleep 5; done
+
+          cat << EOF > test-data.sql
+          INSERT INTO profiles (displayname, name, primaryemail, profilePictureUrl) VALUES ('Robin Ahin', 'flobbin', 'robbin@example.com', 'https://robin-ahn.de/assets/avatar.svg');
+          INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Jo Gengnagel', 'jogen', 'jo.gengnagel@exmaple.com');
+          INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Kaan Güven', 'kanngvn_', 'ich.kaan.das.nicht.mehr@exmaple.com');
+          INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Nikolas Iliadi', 'vonnovo', 'vonnovo@exmaple.com');
+          INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Marvin Haase', 'marfien', 'contact@marfien.dev');
+          INSERT INTO restaurants (address_city, address_county, address_postal_code, address_street, displayname) VALUES ('Aachen', 'Germany', '52062', 'Pontstraße 151', 'Habibna');
+          INSERT INTO menu_items (price, restaurant_id, description, name) VALUES (500, 1, 'Gegrilltes Hähnchenfleich eingelegt in einer libanesischen Marinade, Fritten, Salat, Beirut Sauce', '40. Schawarma Djej');
+          INSERT INTO menu_items (price, restaurant_id, description, name) VALUES (450, 1, 'Gebratenes Gemüse, Salat, Hummus, Käse, Beirut Sauce', '51. Maali');
+          EOF
+          psql -U $POSTGRES_USER -d $POSTGRES_DB -f test-data.sql
       volumes:
         - name: pgdata
           hostPath:
