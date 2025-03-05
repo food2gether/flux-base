@@ -77,10 +77,10 @@ spec:
 
           cat << EOF > test-data.sql
           INSERT INTO profiles (displayname, name, primaryemail, profilePictureUrl) VALUES ('Robin Ahin', 'flobbin', 'robbin@example.com', 'https://robin-ahn.de/assets/avatar.svg');
+          INSERT INTO profiles (displayname, name, primaryemail, profilePictureUrl) VALUES ('Marvin Haase', 'marfien', 'marvin.sempa.haase@gmail.com', 'https://avatars.githubusercontent.com/marfien');
           INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Jo Gengnagel', 'jogen', 'jo.gengnagel@exmaple.com');
           INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Kaan Güven', 'kanngvn_', 'ich.kaan.das.nicht.mehr@exmaple.com');
           INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Nikolas Iliadi', 'vonnovo', 'vonnovo@exmaple.com');
-          INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Marvin Haase', 'marfien', 'contact@marfien.dev');
           INSERT INTO restaurants (address_city, address_county, address_postal_code, address_street, displayname) VALUES ('Aachen', 'Germany', '52062', 'Pontstraße 151', 'Habibna');
           INSERT INTO menu_items (price, restaurant_id, description, name) VALUES (500, 1, 'Gegrilltes Hähnchenfleich eingelegt in einer libanesischen Marinade, Fritten, Salat, Beirut Sauce', '40. Schawarma Djej');
           INSERT INTO menu_items (price, restaurant_id, description, name) VALUES (450, 1, 'Gebratenes Gemüse, Salat, Hummus, Käse, Beirut Sauce', '51. Maali');
