@@ -86,7 +86,7 @@ spec:
           INSERT INTO menu_items (price, restaurant_id, description, name) VALUES (450, 1, 'Gebratenes Gemüse, Salat, Hummus, Käse, Beirut Sauce', '51. Maali');
           INSERT INTO sessions (organizer_id, restaurant_id, deadline) VALUES (1, 1, '2025-3-7 23:59:59');
           EOF
-          echo 'password' | psql -h localhost -U username -d food2gether -f test-data.sql
+          echo 'password' | psql -h localhost -U username -d food2gether -f test-data.sql || true
 
           until false; do echo "Keep alive"; sleep 5; done
       volumes:
