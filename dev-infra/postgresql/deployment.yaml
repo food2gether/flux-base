@@ -76,15 +76,15 @@ spec:
           until echo 'password' | /usr/bin/psql -h localhost -U username -d food2gether -tAc "SELECT 1 FROM pg_tables WHERE tablename = 'menu_items'" | grep -q 1; do echo "Waiting for menu_items table to be created"; sleep 5; done
 
           cat << EOF > test-data.sql
-          INSERT INTO profiles (displayname, name, primaryemail, profilePictureUrl) VALUES ('Robin Ahin', 'flobbin', 'robbin@example.com', 'https://robin-ahn.de/assets/avatar.svg');
-          INSERT INTO profiles (displayname, name, primaryemail, profilePictureUrl) VALUES ('Marvin Haase', 'marfien', 'marvin.sempa.haase@gmail.com', 'https://avatars.githubusercontent.com/marfien');
-          INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Jo Gengnagel', 'jogen', 'jo.gengnagel@exmaple.com');
-          INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Kaan Güven', 'kanngvn_', 'ich.kaan.das.nicht.mehr@exmaple.com');
-          INSERT INTO profiles (displayname, name, primaryemail) VALUES ('Nikolas Iliadi', 'vonnovo', 'vonnovo@exmaple.com');
-          INSERT INTO restaurants (address_city, address_county, address_postal_code, address_street, displayname) VALUES ('Aachen', 'Germany', '52062', 'Pontstraße 151', 'Habibna');
-          INSERT INTO menu_items (price, restaurant_id, description, name) VALUES (500, 1, 'Gegrilltes Hähnchenfleich eingelegt in einer libanesischen Marinade, Fritten, Salat, Beirut Sauce', '40. Schawarma Djej');
-          INSERT INTO menu_items (price, restaurant_id, description, name) VALUES (450, 1, 'Gebratenes Gemüse, Salat, Hummus, Käse, Beirut Sauce', '51. Maali');
-          INSERT INTO sessions (organizer_id, restaurant_id, deadline) VALUES (1, 1, '2025-3-7 23:59:59');
+          INSERT INTO profiles (id, displayname, name, primaryemail, profilePictureUrl) VALUES (1, 'Robin Ahin', 'flobbin', 'robbin@example.com', 'https://robin-ahn.de/assets/avatar.svg');
+          INSERT INTO profiles (id, displayname, name, primaryemail, profilePictureUrl) VALUES (2, 'Marvin Haase', 'marfien', 'marvin.sempa.haase@gmail.com', 'https://avatars.githubusercontent.com/marfien');
+          INSERT INTO profiles (id, displayname, name, primaryemail) VALUES (3, 'Jo Gengnagel', 'jogen', 'jo.gengnagel@exmaple.com');
+          INSERT INTO profiles (id, displayname, name, primaryemail) VALUES (4, 'Kaan Güven', 'kanngvn_', 'ich.kaan.das.nicht.mehr@exmaple.com');
+          INSERT INTO profiles (id, displayname, name, primaryemail) VALUES (5, 'Nikolas Iliadi', 'vonnovo', 'vonnovo@exmaple.com');
+          INSERT INTO restaurants (id, address_city, address_county, address_postal_code, address_street, displayname) VALUES (1, 'Aachen', 'Germany', '52062', 'Pontstraße 151', 'Habibna');
+          INSERT INTO menu_items (id, price, restaurant_id, description, name) VALUES (1, 500, 1, 'Gegrilltes Hähnchenfleich eingelegt in einer libanesischen Marinade, Fritten, Salat, Beirut Sauce', '40. Schawarma Djej');
+          INSERT INTO menu_items (id, price, restaurant_id, description, name) VALUES (2, 450, 1, 'Gebratenes Gemüse, Salat, Hummus, Käse, Beirut Sauce', '51. Maali');
+          INSERT INTO sessions (id, organizer_id, restaurant_id, deadline) VALUES (1, 1, 1, '2025-3-7 23:59:59');
           EOF
           echo 'password' | psql -h localhost -U username -d food2gether -f test-data.sql || true
 
